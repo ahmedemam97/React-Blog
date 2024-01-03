@@ -1,0 +1,18 @@
+.notfound {
+    padding: 5rem 0;
+    opacity: 0.75;
+}
+
+.notfound_items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notfound_items img {
+    height: 11rem;
+    width: 11rem !important;
+    margin: auto;
+}
