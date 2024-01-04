@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useRef } from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap'
 import { PostsContext } from '../../context/PostsContext'
 import PostCard from './PostCard'
 
 const Blog = () => {
-
+  const blogObserveRef = useRef(null)
   const { fetch, loading, data, error } = useContext(PostsContext)
   const isMount = useRef(false)
-  console.log(fetch());
+  // console.log(fetch());
   useEffect(() => {
     if (!isMount.current) {
       fetch()
@@ -15,17 +15,49 @@ const Blog = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const blogObserver = entries[0]
+      if(blogObserver.isIntersecting){
+        
+      }
+    }, {})
+
+    if(blogObserveRef.current) observer.observe(blogObserveRef.current)
+
+    return () => {
+      if(blogObserveRef.current) observer.observe(blogObserveRef.current)
+    }
+  }, [data])
+
   return (
     <section className='py-4'>
       <Container>
-        <h2 className='text-center'>Latest Posts</h2>
-        <Row xs={'1'} md={'2'} lg={'4'} className='g-4'>
-          {loading ? 'Loading...' : 
-          <Col>
-            <PostCard />
-          </Col>}
+        <h2 className='text-center pb-4'>Latest Posts</h2>
+        {loading ?
+          <div className='text-center pt-5'>
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div> : ''}
 
-        </Row>
+        {error ?
+          <div>
+            <Alert variant='danger'>{error}</Alert>
+          </div>
+          : ''}
+
+        {(!loading || !error) && data ? (
+          <Row xs={'1'} md={'2'} lg={'4'} className='g-4'>
+            {data.map((post) => (
+              <Col key={post.id}>
+                <PostCard post={post} />
+              </Col>
+            ))}
+          </Row>
+        ) : ''}
+
+        <div className='blog-observer' ref={blogObserveRef}></div>
       </Container>
     </section>
   )

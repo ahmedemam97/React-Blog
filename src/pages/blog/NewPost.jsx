@@ -44,7 +44,7 @@ const NewPost = () => {
 
     setLoading(false)
 
-    
+
 
 
     console.log({ title, exert, image, body, slug });

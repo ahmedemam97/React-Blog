@@ -7,7 +7,7 @@ const ContextProvider = ({children}) => {
         <FirebaseContextProvider>
             <PostsContextProvider>
                 {children}
-            </PostsContextProvider>
+            </PostsContextProvider> 
         </FirebaseContextProvider>
     )
 }
