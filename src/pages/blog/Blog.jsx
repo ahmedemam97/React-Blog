@@ -5,7 +5,7 @@ import PostCard from './PostCard'
 
 const Blog = () => {
   const blogObserveRef = useRef(null)
-  const { fetch, loading, data, error } = useContext(PostsContext)
+  const { fetch, loading, data, error, fetching, fetchNext } = useContext(PostsContext)
   const isMount = useRef(false)
   // console.log(fetch());
   useEffect(() => {
@@ -13,22 +13,24 @@ const Blog = () => {
       fetch()
       isMount.current = true;
     }
-  }, [])
+  }, [fetch])
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       const blogObserver = entries[0]
-      if(blogObserver.isIntersecting){
-        
+      if (blogObserver.isIntersecting) {
+        //fetch next data
+        fetchNext()
       }
     }, {})
 
-    if(blogObserveRef.current) observer.observe(blogObserveRef.current)
+    if (blogObserveRef.current) observer.observe(blogObserveRef.current)
 
     return () => {
-      if(blogObserveRef.current) observer.observe(blogObserveRef.current)
+      if (blogObserveRef.current) observer.unobserve(blogObserveRef.current)
     }
-  }, [data])
+  }, [data, blogObserveRef, fetchNext])
+
 
   return (
     <section className='py-4'>
@@ -49,13 +51,22 @@ const Blog = () => {
 
         {(!loading || !error) && data ? (
           <Row xs={'1'} md={'2'} lg={'4'} className='g-4'>
-            {data.map((post) => (
-              <Col key={post.id}>
-                <PostCard post={post} />
-              </Col>
-            ))}
+            {data.map((post) => {
+              
+              return (
+                <Col key={post.id}>
+                  <PostCard post={post} />
+                </Col>
+              );
+            })}
           </Row>
         ) : ''}
+
+        {fetching ? <div className='text-center py-5'>
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div> : ''}
 
         <div className='blog-observer' ref={blogObserveRef}></div>
       </Container>

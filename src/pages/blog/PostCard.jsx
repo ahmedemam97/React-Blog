@@ -26,7 +26,7 @@ const PostCard = ({ post }) => {
                 </div>
                 <Card.Body>
                     <Card.Title>{post.title}</Card.Title>
-                    <Card.Text>
+                    <Card.Text className='exert'>
                         {post.exert}
                     </Card.Text>
                 </Card.Body>

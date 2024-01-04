@@ -1,11 +1,10 @@
 .card {
     overflow: hidden;
     text-overflow: clip;
-    min-height: 260px;
+    min-height: 265px;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 4;
-    /* يمكن تعديل هذا الرقم حسب عدد الأسطر التي تريدها */
+    -webkit-line-clamp: 3;
     text-overflow: ellipsis;
 }
 
@@ -20,7 +19,7 @@
 }
 
 .postcard_img img {
-    aspect-ratio: 1.5 / 1;
+    aspect-ratio: 1.4 / 1;
     object-fit: cover;
 }
 
@@ -46,4 +45,17 @@
 .card_link:hover {
     color: #444;
     opacity: 0.9;
+}
+
+/* Article */
+.article_hero {
+    text-align: center;
+}
+
+.article_hero img {
+    width: 100%;
+    max-height: 450px;
+    /* height: 400px; */
+    object-fit: cover;
+    box-shadow: 20px;
 }

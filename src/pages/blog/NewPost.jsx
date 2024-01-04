@@ -6,10 +6,12 @@ import { FirebaseContext } from '../../context/FirebaseContext';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { Audio, FidgetSpinner, InfinitySpin } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
+import { PostsContext } from '../../context/PostsContext';
 
 const NewPost = () => {
   const [loading, setLoading] = useState(false)
   const { app, db } = useContext(FirebaseContext)
+  const { reFetch } = useContext(PostsContext)
   const [body, setBody] = useState('')
   const navigate = useNavigate()
 
@@ -38,6 +40,7 @@ const NewPost = () => {
       e.target.reset()
       setBody('')
       navigate(`/blog/${slug}`)
+      reFetch()
     } catch (error) {
       console.log(error)
     }
