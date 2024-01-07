@@ -16,3 +16,10 @@ code {
 main {
   min-height: calc(100vh - 120px);
 }
+
+.auth-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}

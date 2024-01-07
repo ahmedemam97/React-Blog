@@ -4,10 +4,9 @@ import Header from '../components/Header'
 
 const AuthLayout = () => {
     return (
-        <>
-            <Header />
+        <main className='auth-layout'>
             <Outlet />
-        </>
+        </main>
     )
 }
 
