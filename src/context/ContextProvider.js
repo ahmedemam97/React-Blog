@@ -1,13 +1,16 @@
 import React from 'react'
 import { FirebaseContextProvider } from './FirebaseContext'
 import { PostsContextProvider } from './PostsContext'
+import { AuthContextProvider } from './AuthContext'
 
-const ContextProvider = ({children}) => {
+const ContextProvider = ({ children }) => {
     return (
         <FirebaseContextProvider>
-            <PostsContextProvider>
-                {children}
-            </PostsContextProvider> 
+            <AuthContextProvider>
+                <PostsContextProvider>
+                    {children}
+                </PostsContextProvider>
+            </AuthContextProvider>
         </FirebaseContextProvider>
     )
 }

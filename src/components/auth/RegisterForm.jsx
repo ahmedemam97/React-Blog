@@ -1,21 +1,36 @@
 import { useFormik } from 'formik'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import * as Yup from 'yup'
+import { AuthContext } from '../../context/AuthContext'
+import { ColorRing } from 'react-loader-spinner'
+import { Link } from 'react-router-dom'
 
 const RegisterForm = () => {
+    const [loading, setLoading] = useState(false)
+    const { signUp } = useContext(AuthContext)
 
     const validationSchema = Yup.object().shape({
         userName: Yup.string().required('Name is a required field!').min(3, 'Min Chars Is 3!'),
         email: Yup.string().email().required('Email is a required field!'),
-        password: Yup.string().required('Password is a required field!').min(6,'Min is 6 chars'),
+        password: Yup.string().required('Password is a required field!').min(6, 'Min is 6 chars'),
         confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], "Password doesn't match!")
             .required('Confirm password is a required field!'),
         approved: Yup.boolean().oneOf([true], 'Required')
     })
 
     const reigsterSubmit = (values) => {
-        console.log(values);
+        if (formik.isValid) {
+            setLoading(true)
+            console.log("values", values);
+            try {
+                signUp({ email: values.email, password: values.password })
+                setLoading(false)
+            } catch (error) {
+                setLoading(false)
+                alert(error.message)
+            }
+        }
     }
 
     const formik = useFormik({
@@ -33,7 +48,7 @@ const RegisterForm = () => {
     })
 
     return (
-        <Card className='p-4 bg-light'>
+        <Card className='p-4 bg-light w-50'>
             <Form className='' onSubmit={formik.handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicUserName">
                     <Form.Label>User Name</Form.Label>
@@ -97,9 +112,22 @@ const RegisterForm = () => {
                 </Form.Group>
 
                 <Button disabled={!(formik.dirty && formik.isValid)} variant="primary" type="submit" className='d-block w-100'>
-                    Submit
+                    {loading ?
+                        <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="color-ring-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="color-ring-wrapper"
+                            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+                        /> :
+                        'Submit'
+                    }
                 </Button>
             </Form>
+
+            <Link to={'/login'} className='text-black pt-3'>You have an account?</Link>
         </Card>
     )
 }
