@@ -29,7 +29,7 @@ const Header = () => {
                 <Container>
                     <Navbar.Brand as={'span'}>
                         <DLink slug={'/'}>
-                            <img src={ImgLogo} alt="Image Logo" />
+                            <img src={ImgLogo} alt="Logo" />
                         </DLink>
                     </Navbar.Brand>
                     <Nav className="ms-auto">
